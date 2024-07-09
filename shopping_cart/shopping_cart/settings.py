@@ -10,20 +10,32 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import environ
+
+import os
+
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Reading .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-gyho3(ph=uv7^hnky9bg(mfdwj3n=0njb00t2wj-sq6#(49ri3'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -84,11 +96,11 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'shoppingcart',
-        'USER': 'postgres',
-        'PASSWORD': 'postgresql',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
